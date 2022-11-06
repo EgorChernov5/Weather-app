@@ -11,9 +11,9 @@ import retrofit2.http.Query
 interface ApiInterface {
     @GET("data/2.5/forecast")
     fun getWeather(@Query("q") q: String,
-                   @Query("cnt") cnt: Int,
-                   @Query("units") units: String,
-                   @Query("appid") appid: String) : Call<Weather>
+                          @Query("cnt") cnt: Int,
+                          @Query("units") units: String,
+                          @Query("appid") appid: String) : Call<Weather>
 
     companion object {
         private var BASE_URL = "http://api.openweathermap.org/"

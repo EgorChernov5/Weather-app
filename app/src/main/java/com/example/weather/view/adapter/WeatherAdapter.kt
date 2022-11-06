@@ -27,7 +27,7 @@ class WeatherAdapter : RecyclerView.Adapter<WeatherAdapter.WeatherViewHolder>() 
         with(holder.binding) {
             weatherGroup.text = weather.weather[0].main
             weatherGroupDesc.text = weather.weather[0].description
-            temp.text = weather.main.temp.toString()
+            temp.text = weather.main.temp.toString().plus(" `C")
             date.text = weather.dt_txt
             if (weather.weather[0].icon.isNotEmpty()) {
                 Glide.with(iconWeather.context)
