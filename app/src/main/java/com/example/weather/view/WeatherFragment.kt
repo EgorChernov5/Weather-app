@@ -1,22 +1,20 @@
-package com.example.weather.screens
+package com.example.weather.view
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.weather.WeatherAdapter
+import com.example.weather.view.adapter.WeatherAdapter
 import com.example.weather.databinding.FragmentWeatherBinding
-import com.example.weather.models.WeatherList
-import com.example.weather.models.WeatherService
+import com.example.weather.viewmodel.WeatherViewModel
+import com.example.weather.viewmodel.factory
 
-
-//private const val ARG_CITY = "ARG_CITY"
-//private const val ARG_TEMP = "ARG_TEMP"
-//private const val ARG_DESC = "ARG_DESC"
+import com.example.weather.CITY
 
 
 class WeatherFragment : Fragment() {
@@ -26,27 +24,29 @@ class WeatherFragment : Fragment() {
 
     private val viewModel: WeatherViewModel by viewModels { factory() }
 
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-////        arguments?.let {
-////            param1 = it.getString(ARG_PARAM1)
-////            param2 = it.getString(ARG_PARAM2)
-////        }
-//        viewModel.loadWeather()
-//    }
+    private var city = CITY
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
         binding = FragmentWeatherBinding.inflate(inflater, container, false)
 
+        binding.finderButton.setOnClickListener {
+            city = binding.finder.text.toString()
+            viewModel.loadWeather(city)
+            if (viewModel.resp.value!!.code != 200) {
+                Toast.makeText(requireContext(), viewModel.resp.value!!.message, Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        viewModel.loadWeather(city)
         adapter = WeatherAdapter()
 
         viewModel.weather.observe(viewLifecycleOwner, Observer {
-            adapter.weatherList = it.weatherList
+            adapter.weatherList = it.list
             binding.city.text = it.city.name
-            binding.temp.text = it.weatherList[0].mainInfo.temp.toString() + " C"
-            binding.desc.text = it.weatherList[0].weatherDesc[0].description
+            binding.temp.text = it.list[0].main.temp.toString() + " `C"
+            binding.desc.text = it.list[0].weather[0].description
         })
 
         val layoutManager = LinearLayoutManager(requireContext())
@@ -55,16 +55,4 @@ class WeatherFragment : Fragment() {
 
         return binding.root
     }
-
-//    companion object {
-//        @JvmStatic
-//        fun newInstance(city: String, temp: String, desc: String) =
-//            WeatherFragment().apply {
-//                arguments = Bundle().apply {
-//                    putString(ARG_CITY, city)
-//                    putString(ARG_TEMP, temp)
-//                    putString(ARG_DESC, desc)
-//                }
-//            }
-//    }
 }

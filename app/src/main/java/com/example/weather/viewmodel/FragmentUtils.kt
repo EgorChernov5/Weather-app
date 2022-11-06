@@ -1,9 +1,9 @@
-package com.example.weather.screens
+package com.example.weather.viewmodel
 
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.weather.App
+import com.example.weather.model.App
 
 class ViewModelFactory(
     private val app: App

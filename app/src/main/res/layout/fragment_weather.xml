@@ -31,7 +31,6 @@
 
         app:layout_constraintTop_toTopOf="@+id/finder"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndtOf="@+id/finder"
         app:layout_constraintBottom_toBottomOf="@+id/finder" />
 
     <TextView

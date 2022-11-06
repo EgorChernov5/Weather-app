@@ -1,11 +1,12 @@
-package com.example.weather
+package com.example.weather.view.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.weather.R
 import com.example.weather.databinding.ListItemBinding
-import com.example.weather.models.WeatherList
+import com.example.weather.data.WeatherList
 
 class WeatherAdapter : RecyclerView.Adapter<WeatherAdapter.WeatherViewHolder>() {
 
@@ -24,13 +25,13 @@ class WeatherAdapter : RecyclerView.Adapter<WeatherAdapter.WeatherViewHolder>() 
     override fun onBindViewHolder(holder: WeatherViewHolder, position: Int) {
         val weather = weatherList[position]
         with(holder.binding) {
-            weatherGroup.text = weather.weatherDesc[0].mainWeatherGroup
-            weatherGroupDesc.text = weather.weatherDesc[0].description
-            temp.text = weather.mainInfo.temp.toString() + " C"
+            weatherGroup.text = weather.weather[0].main
+            weatherGroupDesc.text = weather.weather[0].description
+            temp.text = weather.main.temp.toString()
             date.text = weather.dt_txt
-            if (weather.weatherDesc[0].icon.isNotEmpty()) {
+            if (weather.weather[0].icon.isNotEmpty()) {
                 Glide.with(iconWeather.context)
-                    .load(weather.weatherDesc[0].icon)
+                    .load("https://openweathermap.org/img/wn/${weather.weather[0].icon}.png")
                     .placeholder(R.drawable.ic_weather_exclude)
                     .error(R.drawable.ic_weather_exclude)
                     .into(iconWeather)
